@@ -105,7 +105,7 @@ class PTBModel(object):
                 outputs.append(cell_output)
                 self._states.append(state)
 
-        output = tf.reshape(tf.concat_v2(outputs, 1), [-1, self._size])
+        output = tf.reshape(tf.concat(outputs, 1), [-1, self._size])
         softmax_w = tf.get_variable(
             "softmax_w", [self._size, vocab_size], dtype=data_type())
         # print(softmax_w, "SOFTMAX W")
@@ -114,7 +114,7 @@ class PTBModel(object):
         logits = tf.matmul(output, softmax_w) + softmax_b  # 400 x 10k
         # print(logits, "LOGITS")
         # print(input_.targets, "TARGET")
-        loss = tf.nn.seq2seq.sequence_loss_by_example(
+        loss = tf.contrib.legacy_seq2seq.sequence_loss_by_example(
             [logits],
             [tf.reshape(input_.targets, [-1])],
             [tf.ones([batch_size * num_steps], dtype=data_type())])
