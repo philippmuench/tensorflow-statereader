@@ -77,7 +77,7 @@ class PTBModel(object):
         self._size = FLAGS.hidden_size
         vocab_size = FLAGS.vocab_size
 
-        lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(
+        lstm_cell = tf.nn.rnn_cell.LSTMCell(
             self._size, forget_bias=0.0, state_is_tuple=True)
         if is_training and FLAGS.dropout < 1:
             lstm_cell = tf.nn.rnn_cell.DropoutWrapper(
